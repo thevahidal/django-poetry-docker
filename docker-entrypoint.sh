@@ -10,24 +10,18 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-python manage.py import_templates
-if [ $? -ne 0 ]; then
-	echo "Importing templates failed." >&2
-	exit 1
-fi
-
 # if arguments passed, execute them
 # bring up an instance of project otherwise
 if [[ $# -gt 0 ]]; then
 	INPUT=$@
 	sh -c "$INPUT"
 else
-	mkdir -p /var/log/boogh
+	mkdir -p /var/log/projectname
 
 	if [ "$DEBUG" = "True" ]; then
 		python manage.py collectstatic --noinput
 	fi
 
 	echo "Starting Gunicorn..."
-	exec gunicorn boogh.wsgi:application -c gunicorn.conf.py
+	exec gunicorn projectname.wsgi:application -c gunicorn.conf.py
 fi

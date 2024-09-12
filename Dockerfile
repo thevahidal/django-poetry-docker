@@ -65,7 +65,7 @@ RUN apt-get update \
   gettext
 
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
-COPY ./src .
+COPY . .
 
 COPY ./docker-entrypoint.sh .
 COPY ./gunicorn.conf.py .
